@@ -1,0 +1,84 @@
+<html>
+<head>
+    <style>
+        #clock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        #time {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        #label {
+            font-size: 18px;
+        }
+        #motivation {
+            font-size: 24px;
+            color: yellow;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        #trademark {
+            font-size: 36px;
+            color: #4299e1;
+            font-weight: bold;
+            margin-top: 30px;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <div id="clock-container">
+        <div id="time"></div>
+        <div id="label"></div>
+        <div id="motivation"></div>
+        <div id="trademark"></div>
+    </div>
+
+    <script>
+        const timeElement = document.getElementById('time');
+        const labelElement = document.getElementById('label');
+        const motivationElement = document.getElementById('motivation');
+        const trademarkElement = document.getElementById('trademark');
+
+        const startTime = performance.now();
+
+        function updateClock() {
+            const now = performance.now();
+            const elapsedTime = now - startTime;
+
+            if (elapsedTime < 20000) {
+                const microseconds = Math.floor(elapsedTime * 1000);
+                timeElement.textContent = microseconds.toString().padStart(6, '0');
+                labelElement.textContent = 'Calibrate 20 seconds';
+                requestAnimationFrame(updateClock);
+            } else {
+                updateMinutesLeft();
+                motivationElement.textContent = 'You got the "time" to do it!!';
+                setTimeout(() => {
+                    trademarkElement.textContent = '1440TIME™';
+                    trademarkElement.style.opacity = '1';
+                }, 2000);
+            }
+        }
+
+        function updateMinutesLeft() {
+            const now = new Date();
+            const minutesLeft = 1440 - (now.getHours() * 60 + now.getMinutes());
+            timeElement.textContent = minutesLeft.toString();
+            labelElement.textContent = 'Minutes left today';
+            requestAnimationFrame(updateMinutesLeft);
+        }
+
+        updateClock();
+    </script>
+</body>
+</html>
